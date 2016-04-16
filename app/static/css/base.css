@@ -1,4 +1,7 @@
-  .titel h1 {
+* {
+  border-radius: 0 !important;
+}
+.titel h1 {
   color: black;
   font-size: 50px;
   font-weight: bold;
@@ -20,4 +23,8 @@
   padding: 30px;
   padding-top: 50px;
   padding-right: 70px;
+  min-height: 600px;
+  background-image: url("backg.jpg");
+  background-position: top left;;
+  background-repeat: no-repeat;
 }

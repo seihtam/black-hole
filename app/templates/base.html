@@ -21,14 +21,16 @@
       <li><a href="#">Tutorial</a></li>
       <li><a href="/game">Play the Game</a></li>
       <li><a href="/score">Score Board</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
       {% if not current_user.is_authenticated %}
       <li><a href="/login">Login</a></li>
       <li><a href="/signup">Sign Up</a></li>
-      {% else %}
-      <li><a href="/logout">Logout</a></li>
-      <li><a href="/profile">Profile</a></li>
-      {% endif %}
 
+      {% else %}
+      <li><a href="/profile">Profile</a></li>
+      <li><a href="/logout">Logout</a></li>
+      {% endif %}
     </ul>
   </div>
 </nav>
