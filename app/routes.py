@@ -44,7 +44,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    flash('Invalid username or password', FLASH_SUCCESS)
+    flash('Successfully logged out', FLASH_SUCCESS)
     return redirect(url_for('index'))
 
 # Create user
