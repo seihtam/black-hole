@@ -51,8 +51,8 @@ socket.on('play', function(json) {
     console.log("hej");
     console.log(json);
     room = json.room;
-    started = 
-        ((json.current_player === user) && (json.turn % 2 === 1)) || 
+    started =
+        ((json.current_player === user) && (json.turn % 2 === 1)) ||
         ((json.current_player != user) && (json.turn % 2 === 0));
 
     for (i = 1; i < Math.floor((json.turn / 2)) + 1; i++){
@@ -128,6 +128,7 @@ $(".boardbutton").click(function(){
 {% endblock %}
 
 {% block content %}
+<div class="game">
 <div class="row">
     <div class="col-md-2">x</div>
     <div class="col-md-8">vs</div>
@@ -232,5 +233,6 @@ $(".boardbutton").click(function(){
             <button id="opponent-brick-10"  type="button" class="btn btn-danger btn-circle btn-lg disabled">10</button>
         </p>
     </div>
+</div>
 </div>
 {% endblock %}
