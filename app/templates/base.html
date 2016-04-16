@@ -9,7 +9,7 @@
     {% block head %}{% endblock %}
 </head>
 
-<body>  
+<body>
   <div class="body">
     <div class="titel">
         <h1>Black Hole</h1>
@@ -19,10 +19,9 @@
     <ul class="nav navbar-nav">
       <li class="active"><a href="/">Home</a></li>
       <li><a href="#">Tutorial</a></li>
-      <li><a href="#">Play the Game</a></li>
-      <li><a href="#">Score Board</a></li>
-      <!-- TODO if user is not logged in, then render  -->
-      {% if false %}
+      <li><a href="/game">Play the Game</a></li>
+      <li><a href="/score">Score Board</a></li>
+      {% if not current_user.is_authenticated %}
       <li><a href="/login">Login</a></li>
       <li><a href="/signup">Sign Up</a></li>
       {% else %}
