@@ -27,6 +27,23 @@
   line-height: 1.33;
   border-radius: 35px;
 }
+.blue {
+  background-color: #44B3C2;
+  color: #fff;
+}
+.red {
+  background-color: #E45641;
+  color: #fff;
+}
+.boardbutton {
+    border-color: grey !important;
+}
+.btn.disabled {
+    opacity: 1 !important;
+}
+.game {
+  text-align: center;
+}
 
 </style>
 {% endblock %}
@@ -37,7 +54,7 @@
 <script type="text/javascript">
 var waiting = true;
 var socket = io();
-var user = null;
+var player = null;
 var room = null;
 
 socket.on('connect', function() {
@@ -45,12 +62,23 @@ socket.on('connect', function() {
 });
 
 socket.on('join', function(data) {
-    user = data.user;
+    player = data.player;
 });
 
 socket.on('play', function(json) {
     room = json.room;
-    started = (user === json.started);
+    started = (player === json.started);
+
+    // check if someone won
+    if (json.winner !== null){
+        if (json.winner === player){
+
+        } else if (json.winner === "draw"){
+
+        } else {
+
+        }
+    }
 
     // update unused bricks
     var bricks_used = Math.floor(json.turn/2);
@@ -59,7 +87,7 @@ socket.on('play', function(json) {
         $("#brick-own-" + i).hide();
     }
 
-    if (started && json.current_player != user){
+    if (started && json.current_player !== player){
         $("#brick-own-" + (bricks_used+1)).hide();
     }
 
@@ -81,15 +109,15 @@ socket.on('play', function(json) {
         brick.prop("onlick",null).off("click");
 
         // color
-        if (brick_data.player === user){
+        if (brick_data.player === player){
             brick.prop("class", "btn btn-info btn-circle btn-xl disabled");
         } else {
             brick.prop("class", "btn btn-danger btn-circle btn-xl disabled");
         }
     }
 
-    // make user wait
-    if (json.current_player === user){
+    // make player wait
+    if (json.current_player === player){
         waiting = false;
     }
 });
@@ -129,24 +157,24 @@ $(".boardbutton").click(function(){
 <div class="row">
     <div class="col-md-2">
         <p>
-            <button id="brick-own-1"  type="button" class="btn btn-info btn-circle btn-lg disabled">1</button>
-            <button id="brick-own-2"  type="button" class="btn btn-info btn-circle btn-lg disabled">2</button>
+            <button id="brick-own-1"  type="button" class="btn blue btn-circle btn-lg disabled">1</button>
+            <button id="brick-own-2"  type="button" class="btn blue btn-circle btn-lg disabled">2</button>
         </p>
         <p>
-            <button id="brick-own-3"  type="button" class="btn btn-info btn-circle btn-lg disabled">3</button>
-            <button id="brick-own-4"  type="button" class="btn btn-info btn-circle btn-lg disabled">4</button>
+            <button id="brick-own-3"  type="button" class="btn blue btn-circle btn-lg disabled">3</button>
+            <button id="brick-own-4"  type="button" class="btn blue btn-circle btn-lg disabled">4</button>
         </p>
         <p>
-            <button id="brick-own-5"  type="button" class="btn btn-info btn-circle btn-lg disabled">5</button>
-            <button id="brick-own-6"  type="button" class="btn btn-info btn-circle btn-lg disabled">6</button>
+            <button id="brick-own-5"  type="button" class="btn blue btn-circle btn-lg disabled">5</button>
+            <button id="brick-own-6"  type="button" class="btn blue btn-circle btn-lg disabled">6</button>
         </p>
         <p>
-            <button id="brick-own-7"  type="button" class="btn btn-info btn-circle btn-lg disabled">7</button>
-            <button id="brick-own-8"  type="button" class="btn btn-info btn-circle btn-lg disabled">8</button>
+            <button id="brick-own-7"  type="button" class="btn blue btn-circle btn-lg disabled">7</button>
+            <button id="brick-own-8"  type="button" class="btn blue btn-circle btn-lg disabled">8</button>
         </p>
         <p>
-            <button id="brick-own-9"  type="button" class="btn btn-info btn-circle btn-lg disabled">9</button>
-            <button id="brick-own-10"  type="button" class="btn btn-info btn-circle btn-lg disabled">10</button>
+            <button id="brick-own-9"  type="button" class="btn blue btn-circle btn-lg disabled">9</button>
+            <button id="brick-own-10"  type="button" class="btn blue btn-circle btn-lg disabled">10</button>
         </p>
     </div>
 
@@ -205,24 +233,24 @@ $(".boardbutton").click(function(){
     </div>
     <div class="col-md-2">
         <p>
-            <button id="brick-opponent-1"  type="button" class="btn btn-danger btn-circle btn-lg disabled">1</button>
-            <button id="brick-opponent-2"  type="button" class="btn btn-danger btn-circle btn-lg disabled">2</button>
+            <button id="brick-opponent-1"  type="button" class="btn red btn-circle btn-lg disabled">1</button>
+            <button id="brick-opponent-2"  type="button" class="btn red btn-circle btn-lg disabled">2</button>
         </p>
         <p>
-            <button id="brick-opponent-3"  type="button" class="btn btn-danger btn-circle btn-lg disabled">3</button>
-            <button id="brick-opponent-4"  type="button" class="btn btn-danger btn-circle btn-lg disabled">4</button>
+            <button id="brick-opponent-3"  type="button" class="btn red btn-circle btn-lg disabled">3</button>
+            <button id="brick-opponent-4"  type="button" class="btn red btn-circle btn-lg disabled">4</button>
         </p>
         <p>
-            <button id="brick-opponent-5"  type="button" class="btn btn-danger btn-circle btn-lg disabled">5</button>
-            <button id="brick-opponent-6"  type="button" class="btn btn-danger btn-circle btn-lg disabled">6</button>
+            <button id="brick-opponent-5"  type="button" class="btn red btn-circle btn-lg disabled">5</button>
+            <button id="brick-opponent-6"  type="button" class="btn red btn-circle btn-lg disabled">6</button>
         </p>
         <p>
-            <button id="brick-opponent-7"  type="button" class="btn btn-danger btn-circle btn-lg disabled">7</button>
-            <button id="brick-opponent-8"  type="button" class="btn btn-danger btn-circle btn-lg disabled">8</button>
+            <button id="brick-opponent-7"  type="button" class="btn red btn-circle btn-lg disabled">7</button>
+            <button id="brick-opponent-8"  type="button" class="btn red btn-circle btn-lg disabled">8</button>
         </p>
         <p>
-            <button id="brick-opponent-9"  type="button" class="btn btn-danger btn-circle btn-lg disabled">9</button>
-            <button id="brick-opponent-10"  type="button" class="btn btn-danger btn-circle btn-lg disabled">10</button>
+            <button id="brick-opponent-9"  type="button" class="btn red btn-circle btn-lg disabled">9</button>
+            <button id="brick-opponent-10"  type="button" class="btn red btn-circle btn-lg disabled">10</button>
         </p>
     </div>
 </div>
