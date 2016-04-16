@@ -1,18 +1,14 @@
-.body {
-  background-image: url("../background.png");
+body {
+  background-color: hotpink;
   background-repeat: repeat;
   background-size: cover;
 }
+
 .titel h1 {
   color: black;
   font-size: 50px;
   font-weight: bold;
   text-align: center;
-}
-
-.navilink {
-  font-size: 22px;
-  color: black;
 }
 .contents {
   margin: auto;
@@ -21,4 +17,7 @@
   padding-left: 70px;
   padding-right: 70px;
   min-height: 600px;
+}
+.game {
+  text-align: center;
 }
