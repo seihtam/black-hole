@@ -13,10 +13,6 @@ socketio = SocketIO()
 # SQLAlchemy
 db = SQLAlchemy()
 
-# flask-login
-login_manager = LoginManager()
-login_manager.login_view = 'login'
-
 def create_app(sqlalchemy_database_uri, debug=False):
     """Create an application."""
     # Set debug state
@@ -30,6 +26,10 @@ def create_app(sqlalchemy_database_uri, debug=False):
         with open('secret', 'wb') as f:
             app.secret_key = os.urandom(32)
             f.write(app.secret_key)
+
+    # Set login manager
+    app.login_manager = LoginManager()
+    app.login_manager.login_view = 'login'
 
     # Initialize flask-sqlalchemy
     app.config['SQLALCHEMY_DATABASE_URI'] = sqlalchemy_database_uri

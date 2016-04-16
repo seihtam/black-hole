@@ -1,11 +1,10 @@
 from flask import render_template, flash, redirect, url_for, request
 from flask.ext.login import login_required, login_user
-from app import app, db, login_manager
-from app.models import User
+from app import app, db
 from app.models import User
 
 # Set user loader
-@login_manager.user_loader
+@app.login_manager.user_loader
 def load_user(user_id):
     return db.session.filter_by(id = int(user_id)).first()
 
