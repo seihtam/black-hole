@@ -16,6 +16,11 @@ def load_user(user_id):
 def index():
     return render_template('index.html')
 
+# game
+@app.route('/game')
+def game():
+    return render_template('game.html')
+
 # Login
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
