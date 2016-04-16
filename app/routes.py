@@ -1,5 +1,5 @@
 from flask import render_template, flash, redirect, url_for, request
-from flask.ext.login import login_required, login_user
+from flask.ext.login import login_required, login_user, logout_user
 from app import app, db
 from app.models import User
 
@@ -9,7 +9,7 @@ FLASH_SUCCESS = 'success'
 # Set user loader
 @app.login_manager.user_loader
 def load_user(user_id):
-    return db.session.filter_by(id = int(user_id)).first()
+    return db.session.query(User).filter_by(id = int(user_id)).first()
 
 # Index
 @app.route('/')
@@ -32,6 +32,13 @@ def login():
 
     # Login user
     login_user(user)
+    return redirect(url_for('index'))
+
+# Logout
+@app.route('/logout')
+def logout():
+    logout_user()
+    flash('Invalid username or password', FLASH_SUCCESS)
     return redirect(url_for('index'))
 
 # Create user
