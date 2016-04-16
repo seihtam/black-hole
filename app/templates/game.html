@@ -1,0 +1,317 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style type="text/css">
+body{margin:40px;}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
+}
+.btn-circle.btn-xl {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  font-size: 24px;
+  line-height: 1.33;
+  border-radius: 35px;
+}
+
+</style>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+var turn = 1;
+//var waiting = true;
+var waiting = false;
+var json = {
+    board: {
+        1: {
+            value: null,
+            player: 1
+        },
+        2: {
+            value: null,
+            player: 1
+        },
+        3: {
+            value: null,
+            player: 1
+        },
+        4: {
+            value: null,
+            player: 1
+        },
+        5: {
+            value: null,
+            player: 1
+        },
+        6: {
+            value: null,
+            player: 1
+        },
+        7: {
+            value: null,
+            player: 1
+        },
+        8: {
+            value: null,
+            player: 1
+        }, 
+        9: {
+            value: null,
+            player: 1
+        },
+        10: {
+            value: null,
+            player: 1
+        },
+        11: {
+            value: null,
+            player: 1
+        },
+        12: {
+            value: null,
+            player: 1
+        }, 
+        13: {
+            value: null,
+            player: 1
+        },
+        14: {
+            value: null,
+            player: 1
+        },
+        15: {
+            value: null,
+            player: 1
+        },
+        16: {
+            value: null,
+            player: 1
+        }, 
+        17: {
+            value: null,
+            player: 1
+        },
+        18: {
+            value: null,
+            player: 1
+        },
+        19: {
+            value: null,
+            player: 1
+        },
+        20: {
+            value: null,
+            player: 1
+        },
+        21: null
+    },
+    turn: 10,
+    started: true
+}
+
+var socket = io.connect();
+
+socket.on('connect', function() {
+    socket.emit('join', {});
+});
+
+socket.on('join', function(data) {
+    console.log(data);
+});
+
+
+for (i = 1; i < Math.floor((json.turn / 2)) + 1; i++){
+    if (json.started){
+        $("#own-brick-" + i).hide();
+    } else {
+        $("#opponent-brick-" + i).hide();
+    }
+}
+
+for (i = 1; i < Math.floor(json.turn / 2); i++){
+    if (!json.started){
+        $("#own-brick-" + i).hide();
+    } else {
+        $("#opponent-brick-" + i).hide();
+    }
+}
+
+
+for (i = 1; i <= 21; i++){
+    var brick_data = json.board[i];
+    var brick = $("#board-" + i);
+
+    // empty brick
+    if (brick_data === null){
+        brick.prop("class", "btn btn-default btn-circle btn-xl boardbutton");
+        brick.text("");
+        continue;
+    }
+
+    // brick value
+    brick.text(brick_data.value);
+
+    brick.prop("onlick",null).off("click");
+
+    // color
+    if (brick_data.player === 1){
+        brick.prop("class", "btn btn-info btn-circle btn-xl disabled");
+    } else {
+        brick.prop("class", "btn btn-danger btn-circle btn-xl disabled");
+    }
+
+
+
+
+}
+
+
+
+$(".boardbutton").click(function(){
+  
+  if (waiting){
+    return;
+  }
+  //waiting = true;
+  
+
+  var button_id = $(this).prop('id');
+  
+  $("#brick-" + turn).hide();
+  $(this).prop("class", "btn btn-info btn-circle btn-xl disabled");
+  $(this).text(turn);
+  $(this).prop("onlick",null).off("click");
+  
+  turn++;
+});
+
+
+
+
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-2">x</div>
+    <div class="col-md-8">vs</div>
+    <div class="col-md-2">y</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <p>
+            <button id="own-brick-1"  type="button" class="btn btn-info btn-circle btn-lg disabled">1</button>
+            <button id="own-brick-2"  type="button" class="btn btn-info btn-circle btn-lg disabled">2</button>
+        </p>
+        <p>
+            <button id="own-brick-3"  type="button" class="btn btn-info btn-circle btn-lg disabled">3</button>
+            <button id="own-brick-4"  type="button" class="btn btn-info btn-circle btn-lg disabled">4</button>
+        </p>
+        <p>
+            <button id="own-brick-5"  type="button" class="btn btn-info btn-circle btn-lg disabled">5</button>
+            <button id="own-brick-6"  type="button" class="btn btn-info btn-circle btn-lg disabled">6</button>
+        </p>
+        <p>
+            <button id="own-brick-7"  type="button" class="btn btn-info btn-circle btn-lg disabled">7</button>
+            <button id="own-brick-8"  type="button" class="btn btn-info btn-circle btn-lg disabled">8</button>
+        </p>
+        <p>
+            <button id="own-brick-9"  type="button" class="btn btn-info btn-circle btn-lg disabled">9</button>
+            <button id="own-brick-10"  type="button" class="btn btn-info btn-circle btn-lg disabled">10</button>
+        </p>
+    </div>
+
+    <div class="col-md-8">
+        <center>
+            <p>
+                <button id="board-1" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+            </p>
+        </center>
+
+        <center>
+            <p>
+                <button id="board-2" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+                <button id="board-3" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+            </p>
+        </center>
+
+        <center>
+            <p>
+                <button id="board-4" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+                <button id="board-5" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+                <button id="board-6"type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+            </p>
+        </center>
+
+        <center>
+            <p>
+                <button id="board-7" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+                <button id="board-8" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+                <button id="board-9" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+                <button id="board-10" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+            </p>
+        </center>
+
+        <center>
+            <p>
+                <button id="board-11" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+                <button id="board-12" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+                <button id="board-13" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+                <button id="board-14" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+                <button id="board-15" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+            </p>
+        </center>
+
+        <center>
+            <p>
+                <button id="board-16" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+                <button id="board-17" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+                <button id="board-18" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+                <button id="board-19" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+                <button id="board-20" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+                <button id="board-21" type="button" class="btn btn-default btn-circle btn-xl boardbutton"></button>
+            </p>
+        </center>
+
+    </div>
+    <div class="col-md-2">
+        <p>
+            <button id="opponent-brick-1"  type="button" class="btn btn-danger btn-circle btn-lg disabled">1</button>
+            <button id="opponent-brick-2"  type="button" class="btn btn-danger btn-circle btn-lg disabled">2</button>
+        </p>
+        <p>
+            <button id="opponent-brick-3"  type="button" class="btn btn-danger btn-circle btn-lg disabled">3</button>
+            <button id="opponent-brick-4"  type="button" class="btn btn-danger btn-circle btn-lg disabled">4</button>
+        </p>
+        <p>
+            <button id="opponent-brick-5"  type="button" class="btn btn-danger btn-circle btn-lg disabled">5</button>
+            <button id="opponent-brick-6"  type="button" class="btn btn-danger btn-circle btn-lg disabled">6</button>
+        </p>
+        <p>
+            <button id="opponent-brick-7"  type="button" class="btn btn-danger btn-circle btn-lg disabled">7</button>
+            <button id="opponent-brick-8"  type="button" class="btn btn-danger btn-circle btn-lg disabled">8</button>
+        </p>
+        <p>
+            <button id="opponent-brick-9"  type="button" class="btn btn-danger btn-circle btn-lg disabled">9</button>
+            <button id="opponent-brick-10"  type="button" class="btn btn-danger btn-circle btn-lg disabled">10</button>
+        </p>
+    </div>
+</div>
+{% endblock %}
