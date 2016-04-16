@@ -1,4 +1,5 @@
 import os
+from app.ai import AI1
 from app.game import BlackHoleGame
 from flask.ext.login import login_required, current_user
 from flask.ext.socketio import emit, send, leave_room, join_room
@@ -17,10 +18,16 @@ def on_join(data):
         'user': current_user.id
     })
 
+    # Check if AI game
+    if 'mode' in data and data['mode'] == 'AI':
+        game = BlackHoleGame(AI=AI1)
+
     # LOCK : TODO
     for room in open_games:
         # Join an existing game
         game = open_games[room]
+        if game.player1 == current_user.id:
+            continue
         game.players.append(current_user.id)
         running_games[room] = game
         del open_games[room]
@@ -49,6 +56,7 @@ def handle_play_event(data):
     print(tile)
     print(current_user.id)
     if game.play(tile, current_user.id):
+        print('Look who wins:', game.winner)
         print("emit play")
         emit('play', game.to_json(), room=game.room)
 
