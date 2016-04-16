@@ -2,7 +2,7 @@
 
 {% block head %}
 <style type="text/css">
-body{margin:40px;}
+
 
 .btn-circle {
   width: 30px;
@@ -71,7 +71,7 @@ var json = {
         8: {
             value: null,
             player: 1
-        }, 
+        },
         9: {
             value: null,
             player: 1
@@ -87,7 +87,7 @@ var json = {
         12: {
             value: null,
             player: 1
-        }, 
+        },
         13: {
             value: null,
             player: 1
@@ -103,7 +103,7 @@ var json = {
         16: {
             value: null,
             player: 1
-        }, 
+        },
         17: {
             value: null,
             player: 1
@@ -186,20 +186,20 @@ for (i = 1; i <= 21; i++){
 
 
 $(".boardbutton").click(function(){
-  
+
   if (waiting){
     return;
   }
   //waiting = true;
-  
+
 
   var button_id = $(this).prop('id');
-  
+
   $("#brick-" + turn).hide();
   $(this).prop("class", "btn btn-info btn-circle btn-xl disabled");
   $(this).text(turn);
   $(this).prop("onlick",null).off("click");
-  
+
   turn++;
 });
 
