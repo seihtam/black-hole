@@ -92,11 +92,11 @@ socket.on('play', function(json) {
 
     //Set highlighting
     if (json.current_player === player) {
-        $('#name-our').css('color', 'green');
-        $('#name-opponent').css('color', 'black');
+        $('.name-our').css('color', '').css('color', 'green');
+        $('.name-opponent').css('color', '').css('color', 'black');
     } else {
-        $('#name-opponent').css('color', 'green');
-        $('#name-our').css('color', 'black');
+        $('.name-opponent').css('color', '').css('color', 'green');
+        $('.name-our').css('color', '').css('color', 'black');
     }
 
     // check if someone won
@@ -188,9 +188,9 @@ $('#waitModal').modal({
 {% block content %}
 <div class="game">
 <div class="row">
-    <div class="col-md-2 name-our">x</div>
-    <div class="col-md-8">vs</div>
-    <div class="col-md-2 name-opponent">y</div>
+    <div class="col-md-2 name-our"><h1><center>X</center></h1></div>
+    <div class="col-md-8"><h1><center>vs</center></h1></div>
+    <div class="col-md-2 name-opponent"><h1><center>y</center></h1></div>
 </div>
 
 <!-- waitModal -->
