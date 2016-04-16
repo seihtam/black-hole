@@ -126,8 +126,9 @@ var json = {
     started: true
 }
 
-var socket = io.connect();
-
+var socket = io();
+//var socket = io.connect();
+//var socket = io('http://localhost');
 socket.on('connect', function() {
     socket.emit('join', {});
 });
