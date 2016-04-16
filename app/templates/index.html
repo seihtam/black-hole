@@ -14,18 +14,21 @@
   {% endif %}
   {% endwith %}
   <div class="buttonContainer" style="text-align:center;">
-    <div class=col-md-6>
+    <div class="col-md-1"></div>
+    <div class=col-md-4>
       <form action="/game" method="get">
-        <input type="submit" value="Bot game"
+        <input type="submit" value="Bot game" class="form-control"
            name="Submit" id="frm1_submit" />
        </form>
 
     </div>
-    <div class="col-md-6">
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
       <form action="/game" method="get">
-        <input type="submit" value="PVP game"
+        <input type="submit" value="PVP game" class="form-control"
            name="Submit" id="frm1_submit" />
        </form>
     </div>
+    <div class="col-md-1"></div>
   </div>
 {% endblock %}
