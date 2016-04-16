@@ -18,7 +18,7 @@ def login():
     # Validate user password
     username = request.form['username']
     password = request.form['password']
-    user = db.session.query(User).filter(func.lower(User.username) == username.lower).first()
+    user = db.session.query(User).filter_by(username = username).first()
     if not user or not user.check_password(password):
         flash('Invalid username or password', 'error')
         return redirect(url_for('login'))
