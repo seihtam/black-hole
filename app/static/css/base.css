@@ -1,11 +1,11 @@
 body {
-  background-color: hotpink;
+  background-color: #F2EDD8;
   background-repeat: repeat;
   background-size: cover;
 }
 
 .titel h1 {
-  color: black;
+  color: #000000;
   font-size: 50px;
   font-weight: bold;
   text-align: center;

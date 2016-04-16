@@ -1,6 +1,15 @@
 {% extends "base.html" %}
+{% block head %}
+<style type="text/css">
+.scoreboard {
+  background-color: #F1A94E;
+}
+
+</style>
+{% endblock %}
+
 {% block content %}
-  <table class="table table-hover">
+  <table class='table scoreboard'>
       <thead>
         <tr>
           <th>Username</th>
