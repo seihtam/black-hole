@@ -90,14 +90,24 @@ socket.on('play', function(json) {
     room = json.room;
     started = (player === json.started);
 
+    //Set highlighting
+    if (json.current_player === player) {
+        $('.name-our').css('color', '').css('color', 'green');
+        $('.name-opponent').css('color', '').css('color', 'black');
+    } else {
+        $('.name-opponent').css('color', '').css('color', 'green');
+        $('.name-our').css('color', '').css('color', 'black');
+    }
+
     // check if someone won
     if (json.winner !== null){
+        // Do some cool animation mabe??
         if (json.winner === player){
-
+            $("#winModal").modal("show");
         } else if (json.winner === "draw"){
-
+            $("#drawModal").modal("show");
         } else {
-
+            $("#loseModal").modal("show");
         }
     }
 
@@ -178,9 +188,9 @@ $('#waitModal').modal({
 {% block content %}
 <div class="game">
 <div class="row">
-    <div class="col-md-2">x</div>
-    <div class="col-md-8">vs</div>
-    <div class="col-md-2">y</div>
+    <div class="col-md-2 name-our"><h1><center>X</center></h1></div>
+    <div class="col-md-8"><h1><center>vs</center></h1></div>
+    <div class="col-md-2 name-opponent"><h1><center>y</center></h1></div>
 </div>
 
 <!-- waitModal -->
@@ -246,7 +256,7 @@ $('#waitModal').modal({
 
 
 <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-2 bricks-own">
         <p>
             <button id="brick-own-1"  type="button" class="btn blue btn-circle btn-lg disabled">1</button>
             <button id="brick-own-2"  type="button" class="btn blue btn-circle btn-lg disabled">2</button>
@@ -322,7 +332,7 @@ $('#waitModal').modal({
         </center>
 
     </div>
-    <div class="col-md-2">
+    <div class="col-md-2 bricks-opponent">
         <p>
             <button id="brick-opponent-1"  type="button" class="btn red btn-circle btn-lg disabled">1</button>
             <button id="brick-opponent-2"  type="button" class="btn red btn-circle btn-lg disabled">2</button>
