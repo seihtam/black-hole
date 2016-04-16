@@ -13,6 +13,19 @@
   {% endfor %}
   {% endif %}
   {% endwith %}
-  <p> Hello World </p>
+  <div class="buttonContainer" style="text-align:center;">
+    <div class=col-md-6>
+      <form action="/game" method="get">
+        <input type="submit" value="Bot game"
+           name="Submit" id="frm1_submit" />
+       </form>
 
+    </div>
+    <div class="col-md-6">
+      <form action="/game" method="get">
+        <input type="submit" value="PVP game"
+           name="Submit" id="frm1_submit" />
+       </form>
+    </div>
+  </div>
 {% endblock %}
