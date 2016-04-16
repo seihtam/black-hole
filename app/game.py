@@ -13,6 +13,7 @@ board_neighbours = [
 
 class BlackHoleGame():
     def __init__(self, AI = None):
+        # Defaults
         self.room = hexlify(os.urandom(16)).decode('utf-8')
         self.AI = AI
         self.board = {n: None for n in range(1, 22)}
@@ -22,6 +23,12 @@ class BlackHoleGame():
         self.current = ord(os.urandom(1)) % 2 # Current player
         self.started = self.current
         self.winner = None
+
+    def play_AI(self):
+        if self.players[self.current] != None:
+            return
+        self.AI.play(self)
+        return
 
     def play(self, n, player):
         if self.turn >= 20:
