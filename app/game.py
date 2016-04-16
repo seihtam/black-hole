@@ -21,6 +21,7 @@ class BlackHoleGame():
         self.players = []                     # User ids
         self.current = ord(os.urandom(1)) % 2 # Current player
         self.started = self.current
+        self.winner = None
 
     def play(self, n, player):
         if self.board[n] != None:
