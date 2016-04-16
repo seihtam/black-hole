@@ -13,6 +13,9 @@ socketio = SocketIO()
 # SQLAlchemy
 db = SQLAlchemy()
 
+# flask-login
+login_manager = LoginManager()
+
 def create_app(sqlalchemy_database_uri, debug=False):
     """Create an application."""
     # Set debug state
@@ -32,8 +35,8 @@ def create_app(sqlalchemy_database_uri, debug=False):
     db.init_app(app)
 
     # Set login manager
-    app.login_manager = LoginManager()
-    app.login_manager.login_view = 'login'
+    login_manager.init_app(app)
+    login_manager.login_view = 'login'
 
     # Initialize SocketIO
     socketio.init_app(app)

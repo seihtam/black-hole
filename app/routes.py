@@ -1,13 +1,13 @@
 from flask import render_template, flash, redirect, url_for, request
 from flask.ext.login import login_required, login_user, logout_user
-from app import app, db
+from app import app, db, login_manager
 from app.models import User
 
 FLASH_ERROR = 'danger'
 FLASH_SUCCESS = 'success'
 
 # Set user loader
-@app.login_manager.user_loader
+@login_manager.user_loader
 def load_user(user_id):
     return db.session.query(User).filter_by(id = int(user_id)).first()
 
