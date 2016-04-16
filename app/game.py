@@ -3,7 +3,7 @@ from binascii import hexlify
 
 class BlackHoleGame():
     def __init__(self, AI_game = False):
-        self.room = hexlify(os.urandom(16))
+        self.room = hexlify(os.urandom(16)).decode('utf-8')
         self.AI_game = AI_game
         self.board = {n: None for n in range(1, 22)}
         self.turn = 0
@@ -28,7 +28,7 @@ class BlackHoleGame():
         self.current = (self.current + 1) % len(self.players)
         return True
 
-    def to_json(self, player):
+    def to_json(self):
         return {
             'room': self.room,
             'board': self.board,
