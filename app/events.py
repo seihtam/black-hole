@@ -2,6 +2,7 @@ import os
 import threading
 from app.ai import AI1
 from app.game import BlackHoleGame
+from app.models import User
 from flask.ext.login import login_required, current_user
 from flask.ext.socketio import emit, send, leave_room, join_room
 from app import app, socketio
@@ -13,14 +14,17 @@ user_games = {}
 
 game_lock = threading.Lock()
 
+# Clear the user from other session
 def clear_user(user):
     try:
         game = user_games[user]
     except KeyError:
         return
-    leave_room(game.room)
     emit('left', {}, room=game.room)
+    leave_room(game.room)
     del user_games[user]
+
+
 
 @socketio.on('join')
 @login_required
@@ -33,14 +37,21 @@ def on_join(data):
     # Lock game table
     game_lock.acquire()
     clear_user(current_user.id)
-
     if 'mode' in data and data['mode'] == 'AI':
-        # Create AI game
+        # Create an AI game
         game = BlackHoleGame(AI=AI1())
         game.players = [current_user.id, None]
         open_games[game.room] = game
         join_room(game.room)
         game.play_AI()
+
+        # Start game
+        emit('setup', {
+            'names': {
+                game.players[0]: User.query.get(game.players[0]).username,
+                0: 'Bot',
+            }
+        }, room=game.room)
         emit('play', game.to_json(), room=game.room)
         app.logger.info('Created AI game for: %d' % game.players[0])
     else:
@@ -54,6 +65,14 @@ def on_join(data):
             running_games[room] = game
             del open_games[room]
             join_room(game.room)
+
+            # Start game
+            emit('setup', {
+                'names': {
+                    game.players[0]: User.query.get(game.players[0]).username,
+                    game.players[1]: User.query.get(game.players[1]).username,
+                },
+            }, room=game.room)
             emit('play', game.to_json(), room=game.room)
             app.logger.info('Paired user: %d with %d' % (game.players[0], game.players[1]))
             break
