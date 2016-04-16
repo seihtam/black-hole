@@ -23,7 +23,7 @@ def game():
     return render_template('game.html')
 
 # Login
-@app.route('/login', methods = ['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
         return render_template('login.html')
@@ -44,11 +44,11 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    flash('Invalid username or password', FLASH_SUCCESS)
+    flash('Successfully logged out', FLASH_SUCCESS)
     return redirect(url_for('index'))
 
 # Create user
-@app.route('/signup', methods = ['GET', 'POST'])
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
         return render_template('signup.html')
@@ -78,3 +78,9 @@ def signup():
     # Redirect login
     flash('User created, please login', FLASH_SUCCESS)
     return redirect(url_for('login'))
+
+# Show scoreboard
+@app.route('/score', methods=['GET'])
+def scoreboard():
+    users = db.session.query(User).order_by(User.score.desc()).limit(100)
+    return render_template('scoreboard.html', users=users)
