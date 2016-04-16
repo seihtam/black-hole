@@ -1,4 +1,21 @@
 {% extends "base.html" %}
+{% block head %}
+<style type="text/css">
+.playbuttonbot,.playbuttonpvp {
+  color: #5D4C46;
+  font-size: 50px;
+  font-weight: bold;
+  min-height: 350px;
+}
+ .playbuttonbot {
+  background-color: #44B3C2;
+}
+.playbuttonpvp {
+  background-color: #E45641;
+}
+
+</style>
+{% endblock %}
 
 {% block content %}
   <!-- Check for error messages -->
@@ -17,7 +34,7 @@
     <div class="col-md-1"></div>
     <div class=col-md-4>
       <form action="/game" method="get">
-        <input type="submit" value="Bot game" class="form-control"
+        <input type="submit" value="Bot game" class="form-control playbuttonbot"
            name="Submit" id="frm1_submit" />
        </form>
 
@@ -25,7 +42,7 @@
     <div class="col-md-2"></div>
     <div class="col-md-4">
       <form action="/game" method="get">
-        <input type="submit" value="PVP game" class="form-control"
+        <input type="submit" value="PVP game" class="form-control playbuttonpvp"
            name="Submit" id="frm1_submit" />
        </form>
     </div>
