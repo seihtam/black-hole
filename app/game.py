@@ -20,7 +20,7 @@ class BlackHoleGame():
             return False
 
         # Do it
-        self.board[n] = {
+        self.board[n-1] = {
             'player': player,
             'value': self.turn // 2,
         }
@@ -33,6 +33,6 @@ class BlackHoleGame():
             'room': self.room,
             'board': self.board,
             'players': self.players,
-            'current': self.players[self.current],
+            'current_player': self.players[self.current],
         }
 
