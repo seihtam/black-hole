@@ -20,6 +20,8 @@ def on_join(data):
     # Check if AI game
     if 'mode' in data and data['mode'] == 'AI':
         game = BlackHoleGame(AI=AI1)
+        game.player = [current_user.id]
+        emit('play', game.to_json(), room=game.room)
 
     # LOCK : TODO
     for room in open_games:

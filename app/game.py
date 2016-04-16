@@ -24,6 +24,8 @@ class BlackHoleGame():
         self.winner = None
 
     def play(self, n, player):
+        if self.turn >= 20:
+            return False
         if self.board[n] != None:
             return False
         if self.players[self.current] != player:
@@ -53,7 +55,7 @@ class BlackHoleGame():
         for tile in self.board:
             if self.board[tile] == None:
                 peers = self.get_neightbours(tile)
-                peers = map(lambda n: (self.board[n]['player']. self.board[n]['value']), peers)
+                peers = map(lambda n: (self.board[n]['player'], self.board[n]['value']), peers)
                 p1_sum = sum([v if p == self.players[0] else 0 for p, v in peers])
                 p2_sum = sum([v if p == self.players[1] else 0 for p, v in peers])
                 if p1_sum > p2_sum:
