@@ -20,13 +20,19 @@ class BlackHoleGame():
             return False
 
         # Do it
-        self.board[n-1] = {
+        self.board[n] = {
             'player': player,
-            'value': self.turn // 2,
+            'value': (self.turn // 2) + 1,
         }
         self.turn += 1
         self.current = (self.current + 1) % len(self.players)
         return True
+
+    def ai_play(self, player):
+        for tile in self.board:
+            if self.board[tile] is None:
+                return self.play(tile, player)
+        pass
 
     def to_json(self, player):
         return {

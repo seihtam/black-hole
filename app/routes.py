@@ -81,6 +81,7 @@ def signup():
 
 # Show scoreboard
 @app.route('/score', methods=['GET'])
+@login_required
 def scoreboard():
     users = db.session.query(User).order_by(User.score.desc()).limit(100)
     return render_template('scoreboard.html', users=users)
