@@ -10,19 +10,17 @@ class BlackHoleGame():
         self.last_move = 0  # Time of last move
         self.players = []   # User ids
         self.current = 0    # Current player
-        pass
 
     def play(self, n, player):
         if self.board[n] != None:
             return False
         if self.players[self.current] != player:
             return False
-        if n > 21 or n < 1 :
+        if n > 21 or n < 1:
             return False
 
         # Do it
         self.board[n] = {
-            'room': self.room,
             'player': player,
             'value': self.turn // 2,
         }
@@ -32,6 +30,7 @@ class BlackHoleGame():
 
     def to_json(self, player):
         return {
+            'room': self.room,
             'board': self.board,
             'players': self.players,
             'current': self.players[self.current],

@@ -1,7 +1,7 @@
 import os
 from app.game import BlackHoleGame
 from flask.ext.login import login_required, current_user
-from flask.ext.socketio import emit, send
+from flask.ext.socketio import emit, send, leave_room
 from app import app, socketio
 from binascii import hexlify
 
@@ -17,16 +17,16 @@ def on_join(data):
     })
 
     # LOCK : TODO
-    for g in open_games:
-        # Join a game
-        game = open_games[g]
+    for room in open_games:
+        # Join an existing game
+        game = open_games[room]
         game.players.append(current_user.id)
-        running_games[g] = game
-        del open_games[g]
-        emit(game.to_json, room = game.room)
+        running_games[room] = game
+        del open_games[room]
+        emit(game.to_json, room=game.room)
         break
     else:
-        # Open a game
+        # Create a new game
         game = BlackHoleGame()
         game.players.append(current_user.id)
         open_games[game.room] = game
