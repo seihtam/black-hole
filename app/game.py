@@ -1,10 +1,6 @@
 import os
+import time
 from binascii import hexlify
-
-board_graph = {
-    1: [2, 3],
-
-}
 
 class BlackHoleGame():
     def __init__(self, AI_game = False):
@@ -32,6 +28,7 @@ class BlackHoleGame():
         }
         self.turn += 1
         self.current = (self.current + 1) % len(self.players)
+        self.last_move = time.time()
         return True
 
     def ai_play(self, player):
@@ -50,7 +47,7 @@ class BlackHoleGame():
             'room': self.room,
             'board': self.board,
             'players': self.players,
-            'started': self.started,
+            'started': self.players[self.started],
             'current_player': self.players[self.current],
         }
 
