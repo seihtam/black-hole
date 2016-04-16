@@ -9,7 +9,6 @@ from binascii import hexlify
 open_games = {}
 running_games = {}
 
-
 @socketio.on('join')
 @login_required
 def on_join(data):
@@ -26,7 +25,7 @@ def on_join(data):
     for room in open_games:
         # Join an existing game
         game = open_games[room]
-        if game.player1 == current_user.id:
+        if current_user.id in game.players:
             continue
         game.players.append(current_user.id)
         running_games[room] = game
