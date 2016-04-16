@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_fr
+from flask import render_template, flash, redirect, url_for
 from app import app, db, login_manager
 from sqlalchemy import func
 from app.models import User
@@ -35,8 +35,12 @@ def signup():
 
     # Create user
     username = request.form['username']
-    password = request.form['password']
-    user = User(username, password)
+    password1 = request.form['password1']
+    password2 = request.form['password2']
+    if password1 != password2:
+        flash('Passwords not matching', 'error')
+        return redirect(url_for('signup'))
+    user = User(username, password1)
     db.session.add(user)
 
     # Redirect login

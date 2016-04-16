@@ -3,7 +3,6 @@ class BlackHoleGame():
     def __init__(self, AI_game = False):
         self.AI_game = AI_game
         self.board = {n: None for n in range(21)}
-        self.brick = 1
         self.turn = 0
         self.last_move = 0  # Time of last move
         self.player1 = None # User object
