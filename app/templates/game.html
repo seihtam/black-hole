@@ -45,6 +45,26 @@
   text-align: center;
 }
 
+
+.modal {
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) { 
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: middle;
+  vertical-align: middle;
+}
+
 </style>
 {% endblock %}
 
@@ -66,6 +86,7 @@ socket.on('join', function(data) {
 });
 
 socket.on('play', function(json) {
+    $("#waitModal").modal("hide");
     room = json.room;
     started = (player === json.started);
 
@@ -144,6 +165,13 @@ $(".boardbutton").click(function(){
 });
 
 
+
+
+$('#waitModal').modal({
+  backdrop: 'static',
+  keyboard: false
+});
+
 </script>
 {% endblock %}
 
@@ -154,6 +182,69 @@ $(".boardbutton").click(function(){
     <div class="col-md-8">vs</div>
     <div class="col-md-2">y</div>
 </div>
+
+<!-- waitModal -->
+<div class="modal fade" id="waitModal" role="dialog">
+<div class="modal-dialog">
+
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Waiting for other user</h4>
+      <p><img src="loading.gif" alt="spinner"></p>
+    </div>
+  </div>
+  
+</div>
+</div>
+
+
+<!-- winModal -->
+<div class="modal fade" id="waitModal" role="dialog">
+<div class="modal-dialog">
+
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title modal-win-text">You win elo change (+XX)</h4>
+      <p><img src="loading.gif" alt="spinner"></p>
+    </div>
+  </div>
+  
+</div>
+</div>
+
+<!-- loseModal -->
+<div class="modal fade" id="waitModal" role="dialog">
+<div class="modal-dialog">
+
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title modal-lose-text">You lost ELO change (-XX)</h4>
+      <p><img src="loading.gif" alt="spinner"></p>
+    </div>
+  </div>
+  
+</div>
+</div>
+
+<!-- drawModal -->
+<div class="modal fade" id="waitModal" role="dialog">
+<div class="modal-dialog">
+
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title modal-draw-text">It's a a draw ELO change (+XX)</h4>
+      <p><img src="loading.gif" alt="spinner"></p>
+    </div>
+  </div>
+  
+</div>
+</div>
+
+
 <div class="row">
     <div class="col-md-2">
         <p>
