@@ -46,6 +46,7 @@ class BlackHoleGame():
 
     def to_json(self):
         return {
+            'turn': self.turn,
             'room': self.room,
             'board': self.board,
             'players': self.players,
