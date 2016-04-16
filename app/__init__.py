@@ -27,13 +27,13 @@ def create_app(sqlalchemy_database_uri, debug=False):
             app.secret_key = os.urandom(32)
             f.write(app.secret_key)
 
-    # Set login manager
-    app.login_manager = LoginManager()
-    app.login_manager.login_view = 'login'
-
     # Initialize flask-sqlalchemy
     app.config['SQLALCHEMY_DATABASE_URI'] = sqlalchemy_database_uri
     db.init_app(app)
+
+    # Set login manager
+    app.login_manager = LoginManager()
+    app.login_manager.login_view = 'login'
 
     # Initialize SocketIO
     socketio.init_app(app)

@@ -1,5 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
+  <!-- Check for error messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  {% for catagory, message in messages %}
+  <div class="alert alert-{{ catagory }}" role="alert">
+    <ul class=flashes>
+      <li>{{ message }}</li>
+  </ul>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
   <p> Hello World </p>
+
 {% endblock %}
