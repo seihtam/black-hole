@@ -1,6 +1,9 @@
 # database
 /app/app.db
 
+# Keys
+secret
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

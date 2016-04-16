@@ -1,0 +1,23 @@
+  .titel h1 {
+  color: black;
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
+}
+.row {
+  margin: auto;
+  background-color: lightgray;
+}
+.navi {
+  margin: auto;
+  text-align: center;
+}
+.navilink {
+  font-size: 22px;
+  color: black;
+}
+.contents {
+  padding: 30px;
+  padding-top: 50px;
+  padding-right: 70px;
+}

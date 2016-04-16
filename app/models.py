@@ -8,10 +8,9 @@ class User(db.Model):
     username = db.Column(db.String(), nullable=False, unique=True)
     password = db.Column(db.String(), nullable=False)
 
-    def __init__(self, username, password, email):
+    def __init__(self, username, password):
         self.username = username
         self.set_password(password)
-        self.email = func.lower(email)
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
@@ -30,4 +29,4 @@ class User(db.Model):
         return False
 
     def get_id(self):
-        return unicode(self.id)
+        return str(self.id)
