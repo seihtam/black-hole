@@ -3,6 +3,9 @@ from flask.ext.login import login_required, login_user
 from app import app, db
 from app.models import User
 
+FLASH_ERROR = 'danger'
+FLASH_SUCCESS = 'success'
+
 # Set user loader
 @app.login_manager.user_loader
 def load_user(user_id):
@@ -24,7 +27,7 @@ def login():
     password = request.form['password']
     user = db.session.query(User).filter_by(username = username).first()
     if not user or not user.check_password(password):
-        flash('Invalid username or password', 'error')
+        flash('Invalid username or password', FLASH_ERROR)
         return redirect(url_for('login'))
 
     # Login user
@@ -42,17 +45,23 @@ def signup():
     password1 = request.form['password1']
     password2 = request.form['password2']
     if password1 == '' or username == '':
-        flash('Enter a username and password', 'error')
+        flash('Enter a username and password', FLASH_ERROR)
         return redirect(url_for('signup'))
     if password1 != password2:
-        flash('Passwords not matching', 'error')
+        flash('Passwords not matching', FLASH_ERROR)
         return redirect(url_for('signup'))
 
     # Create user
-    user = User(username, password1)
-    db.session.add(user)
-    db.session.commit()
+    try:
+        user = User(username, password1)
+        db.session.add(user)
+        db.session.commit()
+    except:
+        # Solid error handling
+        flash('User exists', FLASH_ERROR)
+        return redirect(url_for('signup'))
+
 
     # Redirect login
-    flash('User created, please login', 'success')
+    flash('User created, please login', FLASH_SUCCESS)
     return redirect(url_for('login'))
