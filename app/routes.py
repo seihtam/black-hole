@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_fr
 from app import app, db, login_manager
 from sqlalchemy import func
 from app.models import User
@@ -30,7 +30,7 @@ def login():
 # Create user
 @app.route('/signup', methods = ['GET', 'POST'])
 def signup():
-    if request.method == 'POST':
+    if request.method == 'GET':
         return render_template('signup.html')
 
     # Create user
