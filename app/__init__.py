@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask.ext.socketio import SocketIO
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -14,15 +15,21 @@ db = SQLAlchemy()
 
 # flask-login
 login_manager = LoginManager()
-
+login_manager.login_view = 'login'
 
 def create_app(sqlalchemy_database_uri, debug=False):
     """Create an application."""
     # Set debug state
     app.debug = debug
 
-    # Set secret_key
-    app.secret_key = 'this_needs_to_be_replaced!'
+    # Load secret key
+    try:
+        with open('secret', 'rb') as f:
+            app.secret_key = f.read()
+    except IOError:
+        with open('secret', 'wb') as f:
+            app.secret_key = os.urandom(32)
+            f.write(app.secret_key)
 
     # Initialize flask-sqlalchemy
     app.config['SQLALCHEMY_DATABASE_URI'] = sqlalchemy_database_uri
