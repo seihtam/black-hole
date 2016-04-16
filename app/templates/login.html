@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="nav">
+  <div class="login">
+    <h1>Login</h1>
+    <!-- Check for error messages -->
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <div class="alert alert-info" role="alert">
+        <ul class=flashes>
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+      </ul>
+      </div>
+      {% endif %}
+      {% endwith %}
+    <!-- Login form -->
+    <form class="form-horizontal" role="form" action="/login" method="post">
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="usr">Username:</label>
+      <div class="col-sm-6">
+        <input name="username" type="text" class="form-control" id="usr" placeholder="Enter Username">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="pwd">Password:</label>
+      <div class="col-sm-6">
+        <input name="password" type="password" class="form-control" id="pwd" placeholder="Enter password">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-default">Login</button>
+      </div>
+    </div>
+  </form>
+
+  </div>
+</div>
+{% endblock %}
