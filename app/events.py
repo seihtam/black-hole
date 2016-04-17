@@ -84,10 +84,10 @@ def on_join(data):
         game.players = [current_user.id, 0]
         open_games[game.room] = game
         join_room(game.room)
-        game.play_AI()
         running_games[game.room] = game
 
         # Start game
+        game.play_AI()
         emit('setup', {
             'names': {
                 game.players[0]: User.query.get(game.players[0]).username,
