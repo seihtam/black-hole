@@ -45,7 +45,6 @@
   text-align: center;
 }
 
-
 .modal {
   text-align: center;
 }
@@ -73,7 +72,9 @@
 {% block script %}
 <script type="text/javascript">
 var waiting = true;
-var socket = io();
+var socket = io.connect('', {
+    reconnection: false
+});
 var player = null;
 var room = null;
 
@@ -81,9 +82,28 @@ socket.on('connect', function() {
     socket.emit('join', {});
 });
 
+
 socket.on('join', function(data) {
     player = data.player;
 });
+
+
+socket.on('setup', function(data) {
+    for (var user_id in data.names) {
+      if (user_id == player) {
+        $('.name-our').text(data.names[user_id]);
+      } else {
+        $('.name-opponent').text(data.names[user_id]);
+      }
+    }
+    
+});
+
+
+socket.on('left', function(data) {
+    $("#leftModal").modal("show");
+});
+
 
 socket.on('play', function(json) {
     $("#waitModal").modal("hide");
@@ -153,18 +173,12 @@ socket.on('play', function(json) {
     }
 });
 
+
 $(".boardbutton").click(function(){
   if (waiting){
     return;
   }
   waiting = true;
-
-  /*
-  $("#brick-" + turn).hide();
-  $(this).prop("class", "btn btn-info btn-circle btn-xl disabled");
-  $(this).text(turn);
-  $(this).prop("onlick",null).off("click");
-  */
 
   socket.emit('play', {
         tile: $(this).prop('id').split("-")[1],
@@ -175,8 +189,6 @@ $(".boardbutton").click(function(){
 });
 
 
-
-
 $('#waitModal').modal({
   backdrop: 'static',
   keyboard: false
@@ -185,12 +197,13 @@ $('#waitModal').modal({
 </script>
 {% endblock %}
 
+
 {% block content %}
 <div class="game">
 <div class="row">
-    <div class="col-md-2 name-our"><h1><center>X</center></h1></div>
+    <div class="col-md-2"><h1><center class="name-our"></center></h1></div>
     <div class="col-md-8"><h1><center>vs</center></h1></div>
-    <div class="col-md-2 name-opponent"><h1><center>y</center></h1></div>
+    <div class="col-md-2"><h1><center class="name-opponent"></center></h1></div>
 </div>
 
 <!-- waitModal -->
@@ -210,14 +223,13 @@ $('#waitModal').modal({
 
 
 <!-- winModal -->
-<div class="modal fade" id="waitModal" role="dialog">
+<div class="modal fade" id="winModal" role="dialog">
 <div class="modal-dialog">
 
   <!-- Modal content-->
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title modal-win-text">You win elo change (+XX)</h4>
-      <p><img src="loading.gif" alt="spinner"></p>
     </div>
   </div>
   
@@ -225,14 +237,13 @@ $('#waitModal').modal({
 </div>
 
 <!-- loseModal -->
-<div class="modal fade" id="waitModal" role="dialog">
+<div class="modal fade" id="loseModal" role="dialog">
 <div class="modal-dialog">
 
   <!-- Modal content-->
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title modal-lose-text">You lost ELO change (-XX)</h4>
-      <p><img src="loading.gif" alt="spinner"></p>
     </div>
   </div>
   
@@ -240,14 +251,27 @@ $('#waitModal').modal({
 </div>
 
 <!-- drawModal -->
-<div class="modal fade" id="waitModal" role="dialog">
+<div class="modal fade" id="drawModal" role="dialog">
 <div class="modal-dialog">
 
   <!-- Modal content-->
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title modal-draw-text">It's a a draw ELO change (+XX)</h4>
-      <p><img src="loading.gif" alt="spinner"></p>
+    </div>
+  </div>
+  
+</div>
+</div>
+
+<!-- leftModal -->
+<div class="modal fade" id="leftModal" role="dialog">
+<div class="modal-dialog">
+
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title modal-left-text">Your opponent left</h4>
     </div>
   </div>
   
