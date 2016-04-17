@@ -32,6 +32,7 @@ def create_app(sqlalchemy_database_uri, debug=False):
 
     # Initialize flask-sqlalchemy
     app.config['SQLALCHEMY_DATABASE_URI'] = sqlalchemy_database_uri
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     db.init_app(app)
 
     # Set login manager
