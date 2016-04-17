@@ -33,9 +33,9 @@ def update_elo(game):
     # Handle winner
     for player in game.players:
         if player == game.winner:
-            winner = User.query.get(game.player)
+            winner = User.query.get(player)
             continue
-        loser = User.query.get(game.player)
+        loser = User.query.get(player)
 
     # Calculate elo rating
     K = 16

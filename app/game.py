@@ -64,9 +64,9 @@ class BlackHoleGame():
                 peers = map(lambda n: (self.board[n]['player'], self.board[n]['value']), peers)
                 p1_sum = sum([v if p == self.players[0] else 0 for p, v in peers])
                 p2_sum = sum([v if p == self.players[1] else 0 for p, v in peers])
-                if p1_sum > p2_sum:
+                if p1_sum < p2_sum:
                     return self.players[0]
-                elif p1_sum < p2_sum:
+                elif p1_sum > p2_sum:
                     return self.players[1]
                 return 'draw'
 
