@@ -2,7 +2,7 @@ from flask.ext.login import current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 
-DEFAULT_SCORE = 12000
+DEFAULT_SCORE = 1500
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
