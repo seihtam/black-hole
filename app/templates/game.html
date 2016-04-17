@@ -64,6 +64,11 @@
   vertical-align: middle;
 }
 
+.name-our, .name-opponent {
+  font-size: 50px;
+  font-weight: bold;
+}
+
 </style>
 {% endblock %}
 
@@ -312,7 +317,7 @@ $('#waitModal').modal({
 <div class="row">
     <div class="col-md-2 bricks-own">
         <p>
-          <h1><center class="name-our"></center></h1>
+          <center class="name-our"></center>
         </p>
         <p>
             <button id="brick-own-1"  type="button" class="btn blue btn-circle btn-lg disabled">1</button>
@@ -391,7 +396,7 @@ $('#waitModal').modal({
     </div>
     <div class="col-md-2 bricks-opponent">
         <p>
-            <h1><center class="name-opponent"></center></h1>
+            <center class="name-opponent"></center>
         </p>
         <p>
             <button id="brick-opponent-1"  type="button" class="btn red btn-circle btn-lg disabled">1</button>
