@@ -29,6 +29,7 @@ def update_elo(game):
     # Handle draw
     if game.winner == 'draw':
         app.logger.error('Draw not handled')
+        return
 
     # Handle winner
     for player in game.players:
