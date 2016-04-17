@@ -102,7 +102,8 @@ def on_join(data):
             # Join an existing game
             game = open_games[room]
             if current_user.id in game.players:
-                continue
+                join_room(game.room)
+                return
             game.players.append(current_user.id)
             running_games[room] = game
             del open_games[room]
