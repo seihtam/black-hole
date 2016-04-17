@@ -1,16 +1,18 @@
-#!/usr/bin/env python
-from app import create_app, socketio
-from werkzeug import SharedDataMiddleware
+#!/usr/bin/env python3
 import os
+from app import create_app
+from cherrypy import wsgiserver
+from werkzeug import SharedDataMiddleware
 
 if __name__ == '__main__':
-    # create app
-    app = create_app('sqlite:///app.db', debug=True)
-
-    # route static files, normally the web server takes care of this
+    app = create_app('sqlite:///app.db', debug=False)
     app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
         '/': os.path.join(os.path.dirname(__file__), 'app/static'),
     })
 
-    # run app
-    socketio.run(app, host='0.0.0.0')
+    d = wsgiserver.WSGIPathInfoDispatcher({'/': app})
+    server = wsgiserver.CherryPyWSGIServer(('0.0.0.0', 8080), d)
+    try:
+        server.start()
+    except KeyboardInterrupt:
+        server.stop()

@@ -1,0 +1,4 @@
+#!/bin/bash
+rm secret
+rm ./app/app.db
+rsync -a . app@46.101.163.208:/home/app/app
