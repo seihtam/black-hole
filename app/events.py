@@ -85,6 +85,7 @@ def on_join(data):
         open_games[game.room] = game
         join_room(game.room)
         game.play_AI()
+        running_games[game.room] = game
 
         # Start game
         emit('setup', {
@@ -141,7 +142,7 @@ def handle_play_event(data):
         game = running_games[data['room']]
         tile = int(data['tile'])
     except (KeyError, ValueError):
-        app.logger.error('Client send a play move, the server did not understand')
+        app.logger.error('Client send a play move, the server did not understand:' + str(data))
         return 'HUGE ERROR'
 
     # Play move

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import os
-from app import create_app
-from cherrypy import wsgiserver
+from app import create_app, socketio
 from werkzeug import SharedDataMiddleware
 
 if __name__ == '__main__':
@@ -9,10 +8,4 @@ if __name__ == '__main__':
     app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
         '/': os.path.join(os.path.dirname(__file__), 'app/static'),
     })
-
-    d = wsgiserver.WSGIPathInfoDispatcher({'/': app})
-    server = wsgiserver.CherryPyWSGIServer(('0.0.0.0', 8080), d)
-    try:
-        server.start()
-    except KeyboardInterrupt:
-        server.stop()
+    socketio.run(app, host='0.0.0.0', port=8080)
