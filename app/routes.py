@@ -20,7 +20,12 @@ def index():
 @app.route('/game')
 @login_required
 def game():
-    return render_template('game.html')
+    mode = request.args.get('mode')
+
+    if mode:
+        return render_template('game.html', mode=mode)
+
+    redirect(url_for('index'))
 
 # Login
 @app.route('/login', methods=['GET', 'POST'])
