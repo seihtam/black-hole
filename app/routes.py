@@ -13,30 +13,24 @@ FLASH_SUCCESS = 'success'
 def load_user(user_id):
     return db.session.query(User).filter_by(id = int(user_id)).first()
 
-
 # Index
 @app.route('/')
 def index():
     return render_template('index.html')
 
-
-# game
+# Game
 @app.route('/game')
 @login_required
 def game():
     mode = request.args.get('mode')
-
     if mode:
         return render_template('game.html', mode=mode)
-
-    redirect(url_for('index'))
-
+    return redirect(url_for('index'))
 
 # rules
 @app.route('/rules')
 def rules():
     return render_template('rules.html')
-
 
 # Login
 @app.route('/login', methods=['GET', 'POST'])
@@ -55,7 +49,6 @@ def login():
     # Login user
     login_user(user)
     return redirect(url_for('index'))
-
 
 # Logout
 @app.route('/logout')

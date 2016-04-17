@@ -102,7 +102,8 @@ def on_join(data):
             # Join an existing game
             game = open_games[room]
             if current_user.id in game.players:
-                continue
+                join_room(game.room)
+                return
             game.players.append(current_user.id)
             running_games[room] = game
             del open_games[room]
@@ -173,6 +174,6 @@ def handle_play_event(data):
 
 @socketio.on('disconnect')
 @login_required
-def handle_disconnect_event(data):
+def handle_disconnect_event():
     app.logger.info('Client %d has disconnected' % current_user.id)
     clear_user(current_user.id)
