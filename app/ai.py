@@ -7,5 +7,8 @@ class AI1():
         pass
 
     def play(self, game, player):
+        for tile in self.board:
+            if self.board[tile] == None:
+                game.play(tile)
         pass
 
