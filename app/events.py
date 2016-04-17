@@ -4,7 +4,7 @@ from app.ai import AI1
 from app.game import BlackHoleGame
 from app.models import User
 from flask.ext.login import login_required, current_user
-from flask.ext.socketio import emit, send, leave_room, join_room
+from flask.ext.socketio import emit, leave_room, join_room
 from app import app, socketio
 
 open_games = {}
