@@ -79,7 +79,14 @@ var player = null;
 var room = null;
 
 socket.on('connect', function() {
-    socket.emit('join', {});
+    socket.emit('join', {
+        mode: "{{mode}}"
+    });
+});
+
+
+socket.on('disconnect', function() {
+    $("#disconnectModal").modal("show");;
 });
 
 
@@ -278,6 +285,19 @@ $('#waitModal').modal({
 </div>
 </div>
 
+<!-- disconnectModal -->
+<div class="modal fade" id="disconnectModal" role="dialog">
+<div class="modal-dialog">
+
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title modal-left-text">You lost the connecting to the server</h4>
+    </div>
+  </div>
+  
+</div>
+</div>
 
 <div class="row">
     <div class="col-md-2 bricks-own">
