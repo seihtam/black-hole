@@ -10,7 +10,7 @@ class AI1():
     def play(self, game):
         # Find a tile
         app.logger.info('BOT: Game = ' + str(game))
-        tiles = [(game.board[t]['value'] if game.board[t] else 0, t) for t in game.board]
+        tiles = [(game.board[t]['value'] if game.board[t] and game.board[t]['player'] != 0 else 0, t) for t in game.board]
         tiles = sorted(tiles, reverse=True)
         app.logger.info('BOT: Tiles = ' + str(tiles))
 
