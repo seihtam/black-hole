@@ -6,6 +6,7 @@
   font-size: 50px;
   font-weight: bold;
   min-height: 350px;
+  width: 100%;
 }
  .playbuttonbot {
   background-color: #44B3C2;
@@ -30,22 +31,39 @@
   {% endfor %}
   {% endif %}
   {% endwith %}
+
   <div class="buttonContainer" style="text-align:center;">
     <div class="col-md-1"></div>
     <div class=col-md-4>
       <form action="/game" method="get">
-        <input type="submit" value="Bot game" class="form-control playbuttonbot"
-           name="Submit" id="frm1_submit" />
-       </form>
+      <input type="hidden" name="mode" value="bot"></input>
+      <button type="submit" class="btn btn-default playbuttonbot">Bot game</button>
+      </form>
+    </div>
+  <div class="col-md-2"></div>
+    <div class="col-md-4">
+      <form action="/game" method="get">
+      <input type="hidden" name="mode" value="pvp"></input>
+      <button type="submit" value="pvp" class="btn btn-default playbuttonpvp">PVP game</button>
+      </form>
+    </div>
 
+
+  <!--
+  <form action="/game" method="get">
+  <div class="buttonContainer" style="text-align:center;">
+    <div class="col-md-1"></div>
+    <div class=col-md-4>
+        <input type="submit" name="mode" value="Bot game" class="form-control playbuttonbot"
+           name="Submit" />
     </div>
     <div class="col-md-2"></div>
     <div class="col-md-4">
-      <form action="/game" method="get">
-        <input type="submit" value="PVP game" class="form-control playbuttonpvp"
-           name="Submit" id="frm1_submit" />
-       </form>
+        <input type="submit" name="mode" value="PVP game" class="form-control playbuttonpvp"
+           name="Submit" />
     </div>
+  </form>
+  -->
     <div class="col-md-1"></div>
   </div>
 {% endblock %}

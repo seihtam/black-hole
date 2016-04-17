@@ -79,7 +79,9 @@ var player = null;
 var room = null;
 
 socket.on('connect', function() {
-    socket.emit('join', {});
+    socket.emit('join', {
+        mode: "{{mode}}"
+    });
 });
 
 
