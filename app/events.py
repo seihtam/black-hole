@@ -1,12 +1,11 @@
-import os
 import threading
+from math import floor, ceil
 from app.ai import AI1
 from app.game import BlackHoleGame
 from app.models import User
 from flask.ext.login import login_required, current_user
 from flask.ext.socketio import emit, leave_room, join_room
 from app import app, socketio
-from binascii import hexlify
 
 open_games = {}
 running_games = {}
@@ -24,7 +23,31 @@ def clear_user(user):
     leave_room(game.room)
     del user_games[user]
 
+# Ajust elo according to game result
+def update_elo(game):
+    app.logger.info('Ajusting elo after game completion')
+    # Handle draw
+    if game.winner == 'draw':
+        app.logger.error('Draw not handled')
 
+    # Handle winner
+    for player in game.players:
+        if player == game.winner:
+            winner = User.query.get(game.player)
+            continue
+        loser = User.query.get(game.player)
+
+    # Calculate elo rating
+    K = 16
+    Q_a = 10**(winner.score / 400)
+    Q_b = 10**(loser.score / 400)
+    E_a = Q_a / (Q_a + Q_b)
+    E_b = Q_b / (Q_a + Q_b)
+    app.logger.info('Old score: winner = %d, loser = %d' % (winner.score, loser.score))
+    winner.score = ceil(winner.score + K * (1 - E_a))
+    loser.score = floor(loser.score + K * (0 - E_b))
+    app.logger.info('New score: winner = %d, loser = %d' % (winner.score, loser.score))
+    db.session.commit()
 
 @socketio.on('join')
 @login_required
@@ -37,7 +60,7 @@ def on_join(data):
     # Lock game table
     game_lock.acquire()
     clear_user(current_user.id)
-    if 'mode' in data and data['mode'] == 'AI':
+    if 'mode' in data and data['mode'] == 'bot':
         # Create an AI game
         game = BlackHoleGame(AI=AI1())
         game.players = [current_user.id, 0]
@@ -82,7 +105,11 @@ def on_join(data):
             game.players.append(current_user.id)
             open_games[game.room] = game
             join_room(game.room)
-            app.logger.info('Cleared a new game lobby for: %d' % game.players[0])
+            app.logger.info('Created a new game lobby for: %d' % game.players[0])
+
+    # Unlock games table
+    app.logger.info('Current open games %d' % len(open_games))
+    app.logger.info('Current running games %d' % len(running_games))
     game_lock.release()
 
 @socketio.on('play')
@@ -104,6 +131,10 @@ def handle_play_event(data):
             game.play_AI()
         if game.winner:
             app.logger.info('A game just completed, the winner was: ' + str(game.winner))
+        if game.winner and game.AI == None:
+            update_elo(game)
+
+
         emit('play', game.to_json(), room=game.room)
 
 @socketio.on('disconnect')

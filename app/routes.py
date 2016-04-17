@@ -6,15 +6,18 @@ from app.models import User
 FLASH_ERROR = 'danger'
 FLASH_SUCCESS = 'success'
 
+
 # Set user loader
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.query(User).filter_by(id = int(user_id)).first()
 
+
 # Index
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 # game
 @app.route('/game')
@@ -26,6 +29,13 @@ def game():
         return render_template('game.html', mode=mode)
 
     redirect(url_for('index'))
+
+
+# rules
+@app.route('/rules')
+def rules():
+    return render_template('rules.html')
+
 
 # Login
 @app.route('/login', methods=['GET', 'POST'])
@@ -45,12 +55,14 @@ def login():
     login_user(user)
     return redirect(url_for('index'))
 
+
 # Logout
 @app.route('/logout')
 def logout():
     logout_user()
     flash('Successfully logged out', FLASH_SUCCESS)
     return redirect(url_for('index'))
+
 
 # Create user
 @app.route('/signup', methods=['GET', 'POST'])
@@ -83,6 +95,7 @@ def signup():
     # Redirect login
     flash('User created, please login', FLASH_SUCCESS)
     return redirect(url_for('login'))
+
 
 # Show scoreboard
 @app.route('/score', methods=['GET'])
