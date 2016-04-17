@@ -207,11 +207,6 @@ $('#waitModal').modal({
 
 {% block content %}
 <div class="game">
-<div class="row">
-    <div class="col-md-2"><h1><center class="name-our"></center></h1></div>
-    <div class="col-md-8"><h1><center>vs</center></h1></div>
-    <div class="col-md-2"><h1><center class="name-opponent"></center></h1></div>
-</div>
 
 <!-- waitModal -->
 <div class="modal fade" id="waitModal" role="dialog">
@@ -302,6 +297,9 @@ $('#waitModal').modal({
 <div class="row">
     <div class="col-md-2 bricks-own">
         <p>
+          <h1><center class="name-our"></center></h1>
+        </p>
+        <p>
             <button id="brick-own-1"  type="button" class="btn blue btn-circle btn-lg disabled">1</button>
             <button id="brick-own-2"  type="button" class="btn blue btn-circle btn-lg disabled">2</button>
         </p>
@@ -377,6 +375,9 @@ $('#waitModal').modal({
 
     </div>
     <div class="col-md-2 bricks-opponent">
+        <p>
+            <h1><center class="name-opponent"></center></h1>
+        </p>
         <p>
             <button id="brick-opponent-1"  type="button" class="btn red btn-circle btn-lg disabled">1</button>
             <button id="brick-opponent-2"  type="button" class="btn red btn-circle btn-lg disabled">2</button>

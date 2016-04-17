@@ -13,4 +13,4 @@ if __name__ == '__main__':
     })
 
     # run app
-    socketio.run(app, host='127.0.0.1')
+    socketio.run(app, host='0.0.0.0')
