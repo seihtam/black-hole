@@ -57,10 +57,15 @@ def on_join(data):
         'player': current_user.id
     })
 
+    # Verify user input
+    if 'mode' not in data:
+        app.logger.error('User joined without giving a mode!')
+        return
+
     # Lock game table
     game_lock.acquire()
     clear_user(current_user.id)
-    if 'mode' in data and data['mode'] == 'bot':
+    if data['mode'] == 'bot':
         # Create an AI game
         game = BlackHoleGame(AI=AI1())
         game.players = [current_user.id, 0]
@@ -77,7 +82,7 @@ def on_join(data):
         }, room=game.room)
         emit('play', game.to_json(), room=game.room)
         app.logger.info('Created AI game for: %d' % game.players[0])
-    else:
+    elif data['mode'] == 'pvp':
         # Create human games
         for room in open_games:
             # Join an existing game
@@ -106,6 +111,9 @@ def on_join(data):
             open_games[game.room] = game
             join_room(game.room)
             app.logger.info('Created a new game lobby for: %d' % game.players[0])
+    else:
+        app.logger.error('User joined with unknown mode %s' % data['mode'])
+        return
 
     # Unlock games table
     app.logger.info('Current open games %d' % len(open_games))
