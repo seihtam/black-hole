@@ -113,23 +113,26 @@ socket.on('left', function(data) {
 
 
 socket.on('endgame', function(data) {
-    console.log(data);
-    if (player === data.winner){
-      if (data.elo){
-        $(".modal-win-text").text("You won! Elo +" + data.elo[player]);
+    setTimeout(function(){
+
+      if (player === data.winner){
+        if (data.elo !== null){
+          $(".modal-win-text").text("You won! Elo +" + data.elo[player]);
+        }
+        $("#winModal").modal("show");
+      } else if ("draw" === data.winner){
+        if (data.elo !== null){
+          $(".modal-draw-text").text("It's a draw. Elo " + data.elo[player]);
+        }
+        $("#drawModal").modal("show");
+      } else {
+        if (data.elo !== null){
+          $(".modal-lose-text").text("You lost. Elo " + data.elo[player]);
+        }
+        $("#loseModal").modal("show");
       }
-      $("#winModal").modal("show");
-    } else if ("draw" === data.winner){
-      if (data.elo){
-        $(".modal-draw-text").text("It's a draw. Elo " + data.elo[player]);
-      }
-      $("#drawModal").modal("show");
-    } else {
-      if (data.elo){
-        $(".modal-lose-text").text("You lost. Elo " + data.elo[player]);
-      }
-      $("#loseModal").modal("show");
-    }
+
+    }, 1000);
 });
 
 

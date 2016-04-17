@@ -147,24 +147,32 @@ def handle_play_event(data):
 
     # Play move
     if game.play(tile, current_user.id):
-        winner = game.find_winner()
-
         app.logger.info('User %d just played' % current_user.id)
         if game.AI:
             app.logger.info('AI is making a move against %d' % current_user.id)
             game.play_AI()
-        if winner and game.AI == None:
+
+        winner = game.find_winner()
+
+        if winner != None and game.AI == None:
             app.logger.info('A game just completed, the winner was: ' + str(winner))
             emit('endgame', {
                 'winner': winner,
                 'elo' : update_elo(game)},
                 room=game.room
             )
-        elif winner and game.AI:
+        elif winner != None and game.AI:
+            app.logger.info('A bot game just completed, the winner was: ' + str(winner))
             emit('endgame', {
-                winner: winner},
+                'winner': winner,
+                'elo': None},
                 room=game.room
             )
+        else:
+            app.logger.warning('Unhandled win condition')
+            print(winner)
+            print(game.AI)
+            print(game.turn)
 
         emit('play', game.to_json(), room=game.room)
 
