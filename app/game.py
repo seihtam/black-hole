@@ -62,8 +62,11 @@ class BlackHoleGame():
             if self.board[tile] == None:
                 peers = self.get_neightbours(tile)
                 peers = map(lambda n: (self.board[n]['player'], self.board[n]['value']), peers)
+                peers = list(peers)
+
                 p1_sum = sum([v if p == self.players[0] else 0 for p, v in peers])
                 p2_sum = sum([v if p == self.players[1] else 0 for p, v in peers])
+
                 if p1_sum < p2_sum:
                     return self.players[0]
                 elif p1_sum > p2_sum:
