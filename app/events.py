@@ -40,7 +40,7 @@ def on_join(data):
     if 'mode' in data and data['mode'] == 'AI':
         # Create an AI game
         game = BlackHoleGame(AI=AI1())
-        game.players = [current_user.id, None]
+        game.players = [current_user.id, 0]
         open_games[game.room] = game
         join_room(game.room)
         game.play_AI()
@@ -102,8 +102,9 @@ def handle_play_event(data):
         if game.AI:
             app.logger.info('AI is making a move against %d' % current_user.id)
             game.play_AI()
+        if game.winner:
+            app.logger.info('A game just completed, the winner was: ' + str(game.winner))
         emit('play', game.to_json(), room=game.room)
-
 
 @socketio.on('disconnect')
 @login_required
