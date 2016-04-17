@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 import os
 from app import create_app, socketio
 from werkzeug import SharedDataMiddleware

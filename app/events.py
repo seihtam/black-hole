@@ -84,10 +84,10 @@ def on_join(data):
         game.players = [current_user.id, 0]
         open_games[game.room] = game
         join_room(game.room)
-        game.play_AI()
         running_games[game.room] = game
 
         # Start game
+        game.play_AI()
         emit('setup', {
             'names': {
                 game.players[0]: User.query.get(game.players[0]).username,
@@ -143,7 +143,7 @@ def handle_play_event(data):
         tile = int(data['tile'])
     except (KeyError, ValueError):
         app.logger.error('Client send a play move, the server did not understand:' + str(data))
-        return 'HUGE ERROR'
+        return
 
     # Play move
     if game.play(tile, current_user.id):
@@ -151,9 +151,7 @@ def handle_play_event(data):
         if game.AI:
             app.logger.info('AI is making a move against %d' % current_user.id)
             game.play_AI()
-
         winner = game.find_winner()
-
         if winner != None and game.AI == None:
             app.logger.info('A game just completed, the winner was: ' + str(winner))
             emit('endgame', {
@@ -168,12 +166,9 @@ def handle_play_event(data):
                 'elo': None},
                 room=game.room
             )
-        else:
+        elif winner != None:
             app.logger.warning('Unhandled win condition')
-            print(winner)
-            print(game.AI)
-            print(game.turn)
-
+            return
         emit('play', game.to_json(), room=game.room)
 
 @socketio.on('disconnect')
