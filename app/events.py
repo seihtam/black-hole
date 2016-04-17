@@ -26,14 +26,17 @@ def clear_user(user):
 # Ajust elo according to game result
 def update_elo(game):
     app.logger.info('Ajusting elo after game completion')
+
+    winner = game.find_winner()
+
     # Handle draw
-    if game.winner == 'draw':
+    if winner == 'draw':
         app.logger.error('Draw not handled')
         return
 
     # Handle winner
     for player in game.players:
-        if player == game.winner:
+        if player == winner:
             winner = User.query.get(player)
             continue
         loser = User.query.get(player)
@@ -45,10 +48,19 @@ def update_elo(game):
     E_a = Q_a / (Q_a + Q_b)
     E_b = Q_b / (Q_a + Q_b)
     app.logger.info('Old score: winner = %d, loser = %d' % (winner.score, loser.score))
+    winner_old = winner.score
+    loser_old = loser.score
+
     winner.score = ceil(winner.score + K * (1 - E_a))
     loser.score = floor(loser.score + K * (0 - E_b))
+
     app.logger.info('New score: winner = %d, loser = %d' % (winner.score, loser.score))
     db.session.commit()
+
+    return {
+        winner.id: winner.score - winner_old,
+        loser.id: loser.score - loser_old
+    }
 
 @socketio.on('join')
 @login_required
@@ -135,15 +147,24 @@ def handle_play_event(data):
 
     # Play move
     if game.play(tile, current_user.id):
+        winner = game.find_winner()
+
         app.logger.info('User %d just played' % current_user.id)
         if game.AI:
             app.logger.info('AI is making a move against %d' % current_user.id)
             game.play_AI()
-        if game.winner:
-            app.logger.info('A game just completed, the winner was: ' + str(game.winner))
-        if game.winner and game.AI == None:
-            update_elo(game)
-
+        if winner and game.AI == None:
+            app.logger.info('A game just completed, the winner was: ' + str(winner))
+            emit('endgame', {
+                'winner': winner,
+                'elo' : update_elo(game)},
+                room=game.room
+            )
+        elif winner and game.AI:
+            emit('endgame', {
+                winner: winner},
+                room=game.room
+            )
 
         emit('play', game.to_json(), room=game.room)
 

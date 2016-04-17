@@ -112,6 +112,21 @@ socket.on('left', function(data) {
 });
 
 
+socket.on('endgame', function(data) {
+    console.log(data);
+    if (player === data.winner){
+      $(".modal-win-text").text("You won! Elo +" + data.elo[player]);
+      $("#winModal").modal("show");
+    } else if ("draw" === data.winner){
+      $(".modal-draw-text").text("It's a draw. Elo " + data.elo[player]);
+      $("#drawModal").modal("show");
+    } else {
+      $(".modal-lose-text").text("You lost. Elo " + data.elo[player]);
+      $("#loseModal").modal("show");
+    }
+});
+
+
 socket.on('play', function(json) {
     $("#waitModal").modal("hide");
     room = json.room;
@@ -124,18 +139,6 @@ socket.on('play', function(json) {
     } else {
         $('.name-opponent').css('color', '').css('color', 'green');
         $('.name-our').css('color', '').css('color', 'black');
-    }
-
-    // check if someone won
-    if (json.winner !== null){
-        // Do some cool animation mabe??
-        if (json.winner === player){
-            $("#winModal").modal("show");
-        } else if (json.winner === "draw"){
-            $("#drawModal").modal("show");
-        } else {
-            $("#loseModal").modal("show");
-        }
     }
 
     // update unused bricks
@@ -217,6 +220,7 @@ $('#waitModal').modal({
     <div class="modal-header">
       <h4 class="modal-title">Waiting for other user</h4>
       <p><img src="loading.gif" alt="spinner"></p>
+      <a href="/" class="btn btn-default" role="button">Cancel</a>
     </div>
   </div>
   
@@ -231,7 +235,7 @@ $('#waitModal').modal({
   <!-- Modal content-->
   <div class="modal-content">
     <div class="modal-header">
-      <h4 class="modal-title modal-win-text">You win elo change (+XX)</h4>
+      <h4 class="modal-title modal-win-text">You won!</h4>
     </div>
   </div>
   
@@ -245,7 +249,7 @@ $('#waitModal').modal({
   <!-- Modal content-->
   <div class="modal-content">
     <div class="modal-header">
-      <h4 class="modal-title modal-lose-text">You lost ELO change (-XX)</h4>
+      <h4 class="modal-title modal-lose-text">You lost</h4>
     </div>
   </div>
   
@@ -259,7 +263,7 @@ $('#waitModal').modal({
   <!-- Modal content-->
   <div class="modal-content">
     <div class="modal-header">
-      <h4 class="modal-title modal-draw-text">It's a a draw ELO change (+XX)</h4>
+      <h4 class="modal-title modal-draw-text">It's a draw</h4>
     </div>
   </div>
   
@@ -274,6 +278,7 @@ $('#waitModal').modal({
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title modal-left-text">Your opponent left</h4>
+      <a href="/" class="btn btn-info" role="button">Okay</a>
     </div>
   </div>
   
@@ -288,6 +293,7 @@ $('#waitModal').modal({
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title modal-left-text">You lost the connecting to the server</h4>
+        <a href="/" class="btn btn-info" role="button">Okay</a>
     </div>
   </div>
   

@@ -22,7 +22,6 @@ class BlackHoleGame():
         self.players = []                     # User ids
         self.current = ord(os.urandom(1)) % 2 # Current player
         self.started = self.current
-        self.winner = None
 
     def play_AI(self):
         if self.players[self.current] != 0:
@@ -48,8 +47,6 @@ class BlackHoleGame():
         self.current = (self.current + 1) % len(self.players)
         self.last_move = time.time()
 
-        # Find winner (if any)
-        self.winner = self.find_winner()
         return True
 
     def get_neightbours(self, n):
@@ -79,9 +76,6 @@ class BlackHoleGame():
             'room': self.room,
             'board': self.board,
             'players': self.players,
-            'winner': self.winner,
             'started': self.players[self.started],
             'current_player': self.players[self.current],
         }
-
-BlackHoleGame()
