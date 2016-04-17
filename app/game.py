@@ -25,12 +25,11 @@ class BlackHoleGame():
         self.winner = None
 
     def play_AI(self):
-        if self.players[self.current] != None:
+        if self.players[self.current] != 0:
             return
         self.AI.play(self)
-        return
 
-    def play(self, n, player):
+    def play(self, n, player = 0):
         if self.turn >= 20:
             return False
         if self.board[n] != None:
