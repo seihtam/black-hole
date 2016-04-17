@@ -1,5 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request
 from flask.ext.login import login_required, login_user, logout_user
+from sqlalchemy import func
 from app import app, db, login_manager
 from app.models import User
 
@@ -40,7 +41,7 @@ def login():
     # Validate user password
     username = request.form['username']
     password = request.form['password']
-    user = db.session.query(User).filter_by(username = username).first()
+    user = User.query.filter(func.lower(User.username) == func.lower(username)).first()
     if not user or not user.check_password(password):
         flash('Invalid username or password', FLASH_ERROR)
         return redirect(url_for('login'))
@@ -73,17 +74,18 @@ def signup():
     if password1 != password2:
         flash('Passwords not matching', FLASH_ERROR)
         return redirect(url_for('signup'))
+    if len(username) > 8:
+        flash('Username can only be 8 characters', FLASH_ERROR)
+        return redirect(url_for('signup'))
 
     # Create user
-    try:
+    if User.query.filter(func.lower(User.username) == func.lower(username)).first():
+        flash('User exists', FLASH_ERROR)
+        return redirect(url_for('signup'))
+    else:
         user = User(username, password1)
         db.session.add(user)
         db.session.commit()
-    except:
-        # Solid error handling
-        flash('User exists', FLASH_ERROR)
-        return redirect(url_for('signup'))
-
 
     # Redirect login
     flash('User created, please login', FLASH_SUCCESS)
