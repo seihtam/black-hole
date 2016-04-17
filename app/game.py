@@ -29,6 +29,8 @@ class BlackHoleGame():
         self.AI.play(self)
 
     def play(self, n, player = 0):
+        print(self.turn)
+
         if self.turn >= 20:
             return False
         if self.board[n] != None:
@@ -79,3 +81,5 @@ class BlackHoleGame():
             'started': self.players[self.started],
             'current_player': self.players[self.current],
         }
+
+BlackHoleGame()
