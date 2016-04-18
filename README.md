@@ -4,7 +4,7 @@ Implementation of the Black Hole board game, created in 24 hours at CopenHacks h
 
 ![GitHub Logo](/game.png)
 
-You can play against other people and against bots. A ranking system is also implemented so you can match yourself against others.
+You can play against other people online and against bots. A ranking system is also implemented so you can match yourself against others.
 
 * http://copenhacks.com/
 * https://boardgamegeek.com/boardgame/146067/black-hole
@@ -18,12 +18,10 @@ Black Hole, initially designed as a paper-and-pencil game, is played on a triang
 #Instructions to run
 * create a virtualenv
   * virtalenv env
-
+'* activate the virtual environment
+  * source env/bin/activate
 * use pip to install dependencies
   * pip install -r requirements.txt
-
-* activate the virtual environment
-  * source env/bin/activate
 * run run.py
   * python run.py
 * open you webbrowser and enter http://127.0.0.1:5000
