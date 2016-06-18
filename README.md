@@ -17,7 +17,7 @@ Black Hole, initially designed as a paper-and-pencil game, is played on a triang
 
 #Instructions to run
 * create a virtualenv
-  * virtalenv env
+  * virtualenv env
 * activate the virtual environment
   * source env/bin/activate
 * use pip to install dependencies
